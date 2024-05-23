@@ -1,0 +1,33 @@
+{
+  "name": "fikri/health-mate",
+  "description": "Simple Consultant website for patient and doctor.",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "fnrafa"
+    }
+  ],
+  "scripts": {
+    "cmd": "php console.php"
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^8.1",
+    "illuminate/database": "^8.0",
+    "vlucas/phpdotenv": "^5.6",
+    "illuminate/events": "^8.0",
+    "illuminate/filesystem": "^8.0",
+    "illuminate/config": "^8.0",
+    "illuminate/console": "^8.0",
+    "illuminate/container": "^8.0",
+    "illuminate/support": "^8.0",
+    "robmorgan/phinx": "^0.12.7",
+    "symfony/console": "^5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fikri\\HealthMate\\": "src/"
+    }
+  }
+}
