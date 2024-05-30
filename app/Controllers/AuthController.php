@@ -17,8 +17,18 @@ class AuthController
 
     public function login(Request $request): string
     {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return view('login', ['error' => 'Email not registered']);
+        }
+
         if (Auth::attempt($request->only('email', 'password'))) {
-            return view('dashboard');
+            return match ($user->role) {
+                'doctor' => view('doctor.index'),
+                'hospital' => view('hospital.index'),
+                default => view('index'),
+            };
         } else {
             return view('login', ['error' => 'Invalid credentials']);
         }
@@ -35,24 +45,30 @@ class AuthController
         return view('register');
     }
 
-    /**
-     * @throws Exception
-     */
     public function register(Request $request): string
     {
-        $request->validate([
+        $validate = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed'
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        if (!$validate) {
+            return view('register', ['errors' => $request->getErrors()]);
+        }
 
-        $_SESSION['user_id'] = $user->id;
-        return view('dashboard');
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'patient' // Default role, adjust as necessary
+            ]);
+
+            $_SESSION['user_id'] = $user->id;
+            return view('dashboard');
+        } catch (Exception $e) {
+            return view('register', ['error' => 'Registration failed: ' . $e->getMessage()]);
+        }
     }
 }

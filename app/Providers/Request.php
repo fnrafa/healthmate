@@ -2,31 +2,14 @@
 
 namespace App\Providers;
 
-use Exception;
-
-/**
- * @property $name
- * @property $email
- * @property $password
- */
 class Request
 {
     protected array $data;
+    protected array $errors = [];
 
     public function __construct()
     {
-        $this->data = array_merge($_GET, $_POST);
-    }
-
-    public function only(...$keys): array
-    {
-        return array_filter(
-            $this->data,
-            function ($key) use ($keys) {
-                return in_array($key, $keys);
-            },
-            ARRAY_FILTER_USE_KEY
-        );
+        $this->data = $_POST;
     }
 
     public function all(): array
@@ -34,25 +17,54 @@ class Request
         return $this->data;
     }
 
-    public function input($key, $default = null)
+    public function only(...$keys): array
     {
-        return $this->data[$key] ?? $default;
+        return array_filter(
+            $this->data,
+            fn($key) => in_array($key, $keys),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
-    public function has($key): bool
+    public function __get($key)
     {
-        return isset($this->data[$key]);
+        return $this->data[$key] ?? null;
     }
 
-    /**
-     * @throws Exception
-     */
-    public function validate(array $rules): void
+    public function validate(array $rules): bool
     {
-        foreach ($rules as $key => $rule) {
-            if (!isset($this->data[$key])) {
-                throw new Exception("Validation failed: $key is required");
+        foreach ($rules as $field => $rule) {
+            $value = $this->$field;
+
+            if (str_contains($rule, 'required') && empty($value)) {
+                $this->errors[$field][] = 'The ' . $field . ' field is required.';
+            }
+
+            if (str_contains($rule, 'email') && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                $this->errors[$field][] = 'The ' . $field . ' field must be a valid email address.';
+            }
+
+            if (str_contains($rule, 'min:')) {
+                preg_match('/min:(\d+)/', $rule, $matches);
+                $min = $matches[1];
+                if (strlen($value) < $min) {
+                    $this->errors[$field][] = 'The ' . $field . ' field must be at least ' . $min . ' characters.';
+                }
+            }
+
+            if (str_contains($rule, 'confirmed')) {
+                $confirmationField = $field . '_confirmation';
+                if ($value !== $this->$confirmationField) {
+                    $this->errors[$field][] = 'The ' . $field . ' field confirmation does not match.';
+                }
             }
         }
+
+        return empty($this->errors);
+    }
+
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }

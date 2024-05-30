@@ -3,7 +3,6 @@
 namespace App\Middlewares;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class Auth
 {
@@ -30,7 +29,7 @@ class Auth
     public static function attempt($credentials): bool
     {
         $user = User::where('email', $credentials['email'])->first();
-        if ($user && Hash::check($credentials['password'], $user->password)) {
+        if ($user && password_verify($credentials['password'], $user->password)) {
             $_SESSION['user_id'] = $user->id;
             self::$user = $user;
             return true;
@@ -44,3 +43,4 @@ class Auth
         self::$user = null;
     }
 }
+

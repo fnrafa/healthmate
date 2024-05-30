@@ -1,5 +1,6 @@
 <?php
 
+use App\Middlewares\AuthMiddleware;
 use Dotenv\Dotenv;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
@@ -9,6 +10,7 @@ use Illuminate\Hashing\HashServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../config/helper.php';
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
@@ -20,14 +22,14 @@ $events = new Dispatcher($container);
 
 $capsule = new Capsule;
 $capsule->addConnection([
-    'driver'    => $_ENV['DB_CONNECTION'],
-    'host'      => $_ENV['DB_HOST'],
-    'database'  => $_ENV['DB_DATABASE'],
-    'username'  => $_ENV['DB_USERNAME'],
-    'password'  => $_ENV['DB_PASSWORD'],
-    'charset'   => 'utf8',
+    'driver' => $_ENV['DB_CONNECTION'],
+    'host' => $_ENV['DB_HOST'],
+    'database' => $_ENV['DB_DATABASE'],
+    'username' => $_ENV['DB_USERNAME'],
+    'password' => $_ENV['DB_PASSWORD'],
+    'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci',
-    'prefix'    => '',
+    'prefix' => '',
 ]);
 
 $capsule->setEventDispatcher($events);

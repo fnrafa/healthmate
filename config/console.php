@@ -5,7 +5,7 @@ $container = require __DIR__ . '/../config/app.php';
 $commands = [
     'serve' => function () {
         echo "Starting PHP built-in server at http://localhost:8000\n";
-        passthru('php -S localhost:8000 -t public');
+        passthru('php -S localhost:8000');
     },
     'migrate' => function () {
         $configPath = __DIR__ . '/../config/config.php';

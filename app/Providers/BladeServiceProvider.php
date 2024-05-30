@@ -24,3 +24,10 @@ class BladeServiceProvider
         return self::getBladeInstance()->make($view, $data)->render();
     }
 }
+
+if (!function_exists('view')) {
+    function view($view, $data = []): string
+    {
+        return BladeServiceProvider::render($view, $data);
+    }
+}

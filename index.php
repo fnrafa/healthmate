@@ -1,12 +1,11 @@
 <?php
 
+session_start();
 $container = require __DIR__ . '/config/app.php';
 
 use App\Middlewares\Auth;
 use App\Providers\BladeServiceProvider;
 use App\Providers\Route;
-
-session_start();
 
 Auth::user();
 
