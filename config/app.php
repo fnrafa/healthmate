@@ -3,6 +3,7 @@
 use Dotenv\Dotenv;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Hashing\HashServiceProvider;
@@ -16,7 +17,6 @@ $dotenv->load();
 
 $container = new Container;
 Container::setInstance($container);
-
 $events = new Dispatcher($container);
 
 $capsule = new Capsule;
@@ -35,6 +35,7 @@ $capsule->setEventDispatcher($events);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
+/** @var Application $container */
 Facade::setFacadeApplication($container);
 
 $container->singleton('config', function () {
