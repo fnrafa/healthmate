@@ -13,3 +13,4 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
 
+

@@ -1,6 +1,5 @@
 <?php
 
-use App\Middlewares\AuthMiddleware;
 use Dotenv\Dotenv;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
@@ -10,7 +9,7 @@ use Illuminate\Hashing\HashServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config/helper.php';
+require __DIR__ . '/../config/helpers.php';
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();

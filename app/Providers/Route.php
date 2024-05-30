@@ -57,11 +57,11 @@ class Route
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
                 http_response_code(404);
-                echo "404 Not Found";
+                echo view('errors.404');
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
                 http_response_code(405);
-                echo "405 Method Not Allowed";
+                echo view('errors.405');
                 break;
             case Dispatcher::FOUND:
                 $handler = $routeInfo[1];

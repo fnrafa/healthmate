@@ -6,7 +6,6 @@ use App\Middlewares\Auth;
 use App\Models\User;
 use App\Providers\Request;
 use Exception;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController
 {
@@ -58,15 +57,13 @@ class AuthController
         }
 
         try {
-            $user = User::create([
+            User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role' => 'patient' // Default role, adjust as necessary
+                'password' => hash_make($request->password),
+                'role' => User::ROLE_PATIENT
             ]);
-
-            $_SESSION['user_id'] = $user->id;
-            return view('dashboard');
+            return view('login');
         } catch (Exception $e) {
             return view('register', ['error' => 'Registration failed: ' . $e->getMessage()]);
         }
