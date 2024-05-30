@@ -1,10 +1,23 @@
 <?php
 
-require 'vendor/autoload.php';
+$container = require __DIR__ . '/config/app.php';
 
-use Dotenv\Dotenv;
+use App\Middlewares\Auth;
+use App\Providers\BladeServiceProvider;
+use App\Providers\Route;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+session_start();
 
-require 'src/config/database.php';
+Auth::user();
+
+if (!function_exists('view')) {
+    function view($view, $data = []): string
+    {
+        return BladeServiceProvider::render($view, $data);
+    }
+}
+
+require __DIR__ . '/routes/web.php';
+
+Route::dispatch();
+
