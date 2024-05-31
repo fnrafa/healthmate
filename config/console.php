@@ -6,6 +6,9 @@ $commands = [
     'serve' => function () {
         passthru('php -S localhost:8000 -t public');
     },
+    'websocket' => function () {
+        passthru('php public/server.php');
+    },
     'migrate' => function () {
         $configPath = __DIR__ . '/../config/config.php';
         $config = require $configPath;

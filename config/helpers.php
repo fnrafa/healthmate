@@ -2,6 +2,7 @@
 
 use App\Middlewares\Auth;
 use App\Models\User;
+use App\Providers\AppProvider;
 use App\Providers\BladeServiceProvider;
 use Illuminate\Hashing\BcryptHasher;
 
@@ -9,6 +10,13 @@ if (!function_exists('auth')) {
     function auth(): ?User
     {
         return Auth::user();
+    }
+}
+
+if (!function_exists('provider')) {
+    function provider(): ?AppProvider
+    {
+        return AppProvider::provider();
     }
 }
 
@@ -33,3 +41,24 @@ if (!function_exists('hash_make')) {
         return $hash->make($value);
     }
 }
+
+if (!function_exists('showAlert')) {
+    function showAlert(int $code, string $message = null): array
+    {
+        $defaultMessages = [
+            401 => 'Unauthorized',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            500 => 'Internal Server Error'
+        ];
+
+        return [
+            'alert' => true,
+            'message' => $message ?? ($defaultMessages[$code] ?? 'An error occurred'),
+            'status' => $defaultMessages[$code] ?? 'Error',
+            'code' => $code
+        ];
+    }
+}
+
+

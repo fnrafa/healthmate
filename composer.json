@@ -23,7 +23,8 @@
     "vlucas/phpdotenv": "^5.5",
     "nikic/fast-route": "^1.3",
     "illuminate/http": "8.40.0",
-    "illuminate/hashing": "8.x-dev"
+    "illuminate/hashing": "8.x-dev",
+    "cboden/ratchet": "dev-master"
   },
   "autoload": {
     "psr-4": {

@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->unsignedInteger('consultation_id');
             $table->unsignedInteger('sender_id');
             $table->text('message');
+            $table->boolean('isRead')->default(false);
             $table->timestamps();
 
             $table->foreign('consultation_id')->references('id')->on('consultations')->onDelete('cascade');

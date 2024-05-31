@@ -10,7 +10,5 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/register', [AuthController::class, 'showRegistrationForm']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
-
-
+Route::get('/', [DashboardController::class, 'index']);
 
