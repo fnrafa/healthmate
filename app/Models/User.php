@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static create(array $array)
  * @method static find(mixed $user_id)
  * @method static where(string $string, mixed $email)
+ * @method static findOrFail(mixed $id)
  */
 class User extends Model
 {

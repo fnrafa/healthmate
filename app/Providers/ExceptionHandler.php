@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Exception;
 use Jenssegers\Blade\Blade;
 use JetBrains\PhpStorm\NoReturn;
+use Throwable;
 
 class ExceptionHandler
 {
@@ -16,7 +16,7 @@ class ExceptionHandler
         set_exception_handler([self::class, 'handleException']);
     }
 
-    #[NoReturn] public static function handleException(Exception $e): void
+    #[NoReturn] public static function handleException(Throwable $e): void
     {
         http_response_code(500);
 

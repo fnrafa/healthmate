@@ -32,13 +32,21 @@
                         <div class="card">
                             <div class="card-body row">
                                 <div class="col-11">
-                                    <h5 class="card-title">{{$consult->id}}</h5>
+                                    <h5 class="card-title">{{$consult->status}}  #{{$consult->id}} </h5>
                                     <p>Note : {{$consult->notes}}</p>
-                                    <p class="text-secondary">{{$consult->doctor->name}} : </p>
+                                    <p class="text-secondary">{{$consult->doctor->name}}</p>
                                 </div>
                                 <div class="col-1">
                                     <h2 class="mt-4 pe-3"><i class="bi bi-chat-dots text-secondary"></i></h2>
-                                    <h2 class="mt-4 pe-3"><i class="bi bi-check-circle text-success"></i></h2>
+                                    @if($consult->status == 'completed')
+                                        <h2 class="mt-4 pe-3"><i class="bi bi-check-circle text-success"></i></h2>
+                                    @elseif($consult->status == 'requested')
+                                        <h2 class="mt-4 pe-3"><i class="bi bi-exclamation-circle text-warning"></i></h2>
+                                    @elseif($consult->status == 'referred')
+                                        <h2 class="mt-4 pe-3"><i class="bi bi-arrow-right-circle text-primary"></i></h2>
+                                    @elseif($consult->status == 'in_progress')
+                                        <h2 class="mt-4 pe-3"><i class="bi bi-hourglass-split text-danger"></i></h2>
+                                    @endif
                                 </div>
                             </div>
                         </div>

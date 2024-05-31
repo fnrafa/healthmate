@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Providers\AppProvider;
 use App\Providers\BladeServiceProvider;
 use Illuminate\Hashing\BcryptHasher;
+use JetBrains\PhpStorm\NoReturn;
 
 if (!function_exists('auth')) {
     function auth(): ?User
@@ -60,5 +61,14 @@ if (!function_exists('showAlert')) {
         ];
     }
 }
+
+if (!function_exists('redirect')) {
+    #[NoReturn] function redirect($url = ''): void
+    {
+        header("Location: $url");
+        exit();
+    }
+}
+
 
 

@@ -31,7 +31,7 @@ class DashboardController
 
     public function patient($id): string
     {
-        $consults = Consultation::with(['patient', 'doctor'])
+        $consults = Consultation::with(['patient', 'doctor', 'specialization'])
             ->where('patient_id', $id)
             ->get();
         return view('index', ['consults' => $consults]);

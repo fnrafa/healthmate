@@ -23,11 +23,7 @@ class AuthController
         }
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            return match ($user->role) {
-                'doctor' => view('doctor.index'),
-                'hospital' => view('hospital.index'),
-                default => view('index'),
-            };
+            redirect('/');
         } else {
             return view('login', ['error' => 'Invalid credentials']);
         }
@@ -63,7 +59,7 @@ class AuthController
                 'password' => hash_make($request->password),
                 'role' => User::ROLE_PATIENT
             ]);
-            return view('login');
+            redirect('login');
         } catch (Exception $e) {
             return view('register', ['error' => 'Registration failed: ' . $e->getMessage()]);
         }
