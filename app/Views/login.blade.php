@@ -19,14 +19,7 @@
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-@if (isset($alert))
-    <div class="alert alert-warning alert-dismissible fade show fixed-alert" role="alert">
-        <h4 class="alert-heading">{{ $status }}</h4>
-        <hr>
-        <p><i class="bi bi-exclamation-triangle me-1"></i> {{ $message }}</p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
+@include('partials.alert')
 <main>
     <div class="container">
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">

@@ -1228,3 +1228,37 @@ h6 {
     transform: translateX(-50%);
     z-index: 1050;
 }
+
+.message-bubble-left {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.message-bubble-right {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.custom-file-input {
+    display: none;
+}
+
+.custom-file-label::after {
+    content: "Choose File";
+}
+
+#messageContainer::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
+
+#messageContainer::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#messageContainer::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}

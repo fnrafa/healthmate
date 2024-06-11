@@ -7,15 +7,12 @@
     </div>
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
-            <li class="nav-item d-block d-lg-none">
-                <a class="nav-link nav-icon search-bar-toggle " href="#">
-                    <i class="bi bi-search"></i>
-                </a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link nav-icon" href="#">
                     <i class="bi bi-chat-left-text"></i>
-                    <span class="badge bg-success badge-number">3</span>
+                    @if(getUnreadMessageCount(auth()->id) > 0)
+                        <span class="badge bg-success badge-number">{{getUnreadMessageCount(auth()->id)}}</span>
+                    @endif
                 </a>
             </li>
             <li class="nav-item dropdown pe-3">

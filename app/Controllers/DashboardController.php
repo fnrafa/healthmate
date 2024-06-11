@@ -3,24 +3,33 @@
 namespace App\Controllers;
 
 use App\Models\Consultation;
+use App\Models\Specialization;
 use App\Models\User;
 
 class DashboardController
 {
+    private string $sidebar = 'dashboard';
+
     public function index(): string
     {
         $user = auth();
 
         if (!$user) {
-            return view('login', showAlert(403, 'You must be logged in to access this page'));
+            showAlert(403, 'You must be logged in to access this page');
+            redirect('/login');
         }
 
         return match ($user->role) {
-            'doctor' => view('doctor.index'),
+            'doctor' => $this->doctor(),
             'hospital' => view('hospital.index'),
             'admin' => $this->admin(),
             default => $this->patient($user->id),
         };
+    }
+
+    public function doctor(): string
+    {
+        return view('doctor.index', ['sidebar' => $this->sidebar,]);
     }
 
     public function admin(): string
@@ -31,9 +40,22 @@ class DashboardController
 
     public function patient($id): string
     {
-        $consults = Consultation::with(['patient', 'doctor', 'specialization'])
+        $consult = Consultation::with(['patient', 'doctor', 'specialization'])
             ->where('patient_id', $id)
-            ->get();
-        return view('index', ['consults' => $consults]);
+            ->orderBy('created_at', 'desc')
+            ->first();
+        $statusCheck = true;
+        if ($consult && $consult->status !== 'completed') {
+            $statusCheck = false;
+        }
+        $specializations = Specialization::all();
+        $doctors = User::where('role', "doctor")->get();
+        return view('index', [
+            'sidebar' => $this->sidebar,
+            'consult' => $consult,
+            'statusCheck' => $statusCheck,
+            'specializations' => $specializations,
+            'doctors' => $doctors
+        ]);
     }
 }

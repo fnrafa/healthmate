@@ -14,4 +14,3 @@ Auth::user();
 require __DIR__ . '/../routes/web.php';
 
 Route::dispatch();
-

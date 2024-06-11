@@ -11,6 +11,11 @@ class AuthController
 {
     public function showLoginForm(): string
     {
+        $user = auth();
+        if ($user) {
+            showAlert(403, 'You must be logged out to access this page');
+            redirect('/');
+        }
         return view('login');
     }
 
@@ -37,6 +42,11 @@ class AuthController
 
     public function showRegistrationForm(): string
     {
+        $user = auth();
+        if ($user) {
+            showAlert(403, 'You must be logged out to access this page');
+            redirect('/');
+        }
         return view('register');
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Providers;
 
 use FastRoute\Dispatcher;
@@ -28,7 +29,7 @@ class Route
 
     public static function view($uri, $view, $data = [], $name = null): void
     {
-        self::$routes['GET'][$uri] = function() use ($view, $data) {
+        self::$routes['GET'][$uri] = function () use ($view, $data) {
             return view($view, $data);
         };
         if ($name) {
@@ -38,7 +39,7 @@ class Route
 
     public static function dispatch(): void
     {
-        $dispatcher = simpleDispatcher(function(RouteCollector $r) {
+        $dispatcher = simpleDispatcher(function (RouteCollector $r) {
             foreach (self::$routes as $method => $routes) {
                 foreach ($routes as $uri => $action) {
                     $r->addRoute($method, $uri, $action);

@@ -36,13 +36,6 @@
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 <script src="assets/js/main.js"></script>
-<script>
-    const userId = {{auth()->id}};
-    const conn = new WebSocket('ws://localhost:8080');
-
-    conn.onopen = function () {
-        conn.send(JSON.stringify({type: 'identify', userId: userId}));
-    };
-</script>
+<script src="assets/js/socket.js" data-id="{{auth()->id}}"></script>
 </body>
 </html>

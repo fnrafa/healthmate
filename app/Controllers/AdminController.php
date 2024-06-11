@@ -11,13 +11,13 @@ class AdminController
     public function index(): string
     {
         $user = auth();
-
         if (!$user) {
-            return view('login', showAlert(403, 'You must be logged in to access this page'));
+            showAlert(403, 'You must be logged in to access this page');
+            redirect('login');
         }
         if ($user->role != 'admin') {
-
-            return view('login', showAlert(403, "Unauthorized, you can't access this page"));
+            showAlert(403, "Unauthorized, you can't access this page");
+            redirect('login');
         }
         return view('admin.index');
     }

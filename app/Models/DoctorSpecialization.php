@@ -2,27 +2,19 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @method static where(string $string, mixed $id)
  * @method static create(array $array)
- * @method static find(mixed $id)
  */
-class Consultation extends Model
+class DoctorSpecialization extends Model
 {
-    protected $table = 'consultations';
+    protected $table = 'doctor_specializations';
 
-    protected $fillable = [
-        'patient_id', 'doctor_id', 'specialization_id', 'type', 'notes', 'status'
-    ];
+    public $timestamps = false;
 
-    public function patient(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'patient_id');
-    }
+    protected $fillable = ['doctor_id', 'specialization_id'];
 
     public function doctor(): BelongsTo
     {

@@ -34,9 +34,21 @@ class Notification implements MessageComponentInterface
             return;
         }
 
-        if (isset($data->type) && $data->type === 'new_referral') {
-            echo "New referral message for user: $data->userId\n";
-            $this->sendToUser($data->userId, $data->message);
+        if (isset($data->type) && $data->type === 'new_message') {
+            echo "New message for user: $data->userId\n";
+            $this->sendToUser($data->userId, json_encode([
+                'type' => 'chat',
+                'userId' => $data->userId,
+                'message' => $data->message,
+                'message_id' => $data->message_id,
+                'created_at' => $data->created_at,
+                'is_read' => false
+            ]));
+        }
+
+        if (isset($data->type) && $data->type === 'mark_read') {
+            echo "Marking messages as read for user: $data->userId\n";
+            $this->markMessagesAsRead($data->userId);
         }
     }
 
@@ -46,6 +58,16 @@ class Notification implements MessageComponentInterface
             if (isset($this->clientInfo[$client->resourceId]) && $this->clientInfo[$client->resourceId] === $userId) {
                 $client->send($msg);
                 echo "Message sent to user $userId on connection $client->resourceId\n";
+            }
+        }
+    }
+
+    public function markMessagesAsRead($userId): void
+    {
+        foreach ($this->clients as $client) {
+            if (isset($this->clientInfo[$client->resourceId]) && $this->clientInfo[$client->resourceId] === $userId) {
+                $client->send(json_encode(['type' => 'status_update', 'userId' => $userId, 'is_read' => true]));
+                echo "Marked messages as read for user $userId on connection $client->resourceId\n";
             }
         }
     }

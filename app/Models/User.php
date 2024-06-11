@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 /**
@@ -20,4 +21,10 @@ class User extends Model
     const ROLE_PATIENT = 'patient';
     const ROLE_DOCTOR = 'doctor';
     const ROLE_HOSPITAL = 'hospital';
+    const ROLE_ADMIN = 'admin';
+
+    public function specializations(): BelongsToMany
+    {
+        return $this->belongsToMany(Specialization::class, 'doctor_specializations', 'doctor_id', 'specialization_id');
+    }
 }
